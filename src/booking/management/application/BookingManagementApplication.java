@@ -12,12 +12,15 @@ import booking.management.application.Models.BookingCollection;
 import booking.management.application.Models.Date;
 import booking.management.application.Models.Session;
 import booking.management.application.Models.Lesson;
+import booking.management.application.Models.LessonCollection;
+import booking.management.application.Models.SessionCollection;
 import booking.management.application.Models.TimeofDay;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import booking.management.application.Models.Timetable;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.json.simple.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
@@ -51,21 +54,21 @@ public class BookingManagementApplication {
     /**
      * @param args the command line arguments
      */
-    
+    static int lessonId=0;
     static int lessonCount=0;
     static ArrayList<Booking> bookingCollection=new ArrayList<Booking>();
-    private static Lesson lesson1=new Lesson(1,"hgj",2.3);
-    private static Lesson lesson2=new Lesson(12,"gjk",2.3);
-    private static Lesson lesson3=new Lesson(3,"kgu",2.3);
-    private static Lesson lesson4=new Lesson(4,"",2.3);
-    private static Lesson lesson5=new Lesson(5,"",2.3);
-    private static Lesson lesson6=new Lesson(6,"",2.3);
-    private static Lesson lesson7=new Lesson(7,"",2.3);
-    private static Lesson lesson8=new Lesson(8,"",2.3);
-    private static Lesson lesson9=new Lesson(9,"",2.3);
-    private static Lesson lesson10=new Lesson(10,"",2.3);
-    private static Lesson lesson11=new Lesson(11,"",2.3);
-    private static Lesson lesson12=new Lesson(12,"",2.3);
+    private static Lesson lesson1=new Lesson(1,"football",12.3);
+    private static Lesson lesson2=new Lesson(2,"tennis",2.3);
+    private static Lesson lesson3=new Lesson(3,"volleyball",2.3);
+    private static Lesson lesson4=new Lesson(4,"chess",2.3);
+    private static Lesson lesson5=new Lesson(5,"volleyball",2.3);
+    private static Lesson lesson6=new Lesson(6,"scrabble",2.3);
+    private static Lesson lesson7=new Lesson(7,"whot",2.3);
+    private static Lesson lesson8=new Lesson(8,"football",64.3);
+    private static Lesson lesson9=new Lesson(9,"draft",2.3);
+    private static Lesson lesson10=new Lesson(10,"running",2.3);
+    private static Lesson lesson11=new Lesson(11,"football",2.3);
+    private static Lesson lesson12=new Lesson(12,"football",32.3);
    
     TimeofDay morning=new TimeofDay(1,"morning");
     TimeofDay afternoon=new TimeofDay(2,"afternoon");
@@ -85,6 +88,18 @@ public class BookingManagementApplication {
     static Session ss=new Session(5,2);
     static Session st=new Session(6,3);
     
+    // second saturday
+
+    static Session tf=new Session(7,1);
+    static Session ts=new Session(8,2);
+    static Session tt=new Session(9,3);
+    
+    // second saturday
+
+    static Session fof=new Session(10,1);
+    static Session fos=new Session(11,2);
+    static Session fot=new Session(12,3);
+    
     
      
     static ArrayList<Session> s1=new ArrayList<Session>();
@@ -98,11 +113,11 @@ public class BookingManagementApplication {
     
     static Date d2=new Date(2,27,3,2022,2);
     static Date d3=new Date(3,2,4,2022,1);
-    static Date d4=new Date(4,2,4,2022,2);
+    static Date d4=new Date(4,3,4,2022,2);
     
    public static HashMap<Integer,Date> attendance=new HashMap<Integer,Date>();
    public static HashMap<Integer,Lesson> Lessons=new HashMap<Integer,Lesson>();
-     
+   public static SessionCollection sessionCollection=null;
    static int studentId=0;
     
     
@@ -111,6 +126,10 @@ public class BookingManagementApplication {
     
     public static void loadDummyDate()
     {
+//        Lesson[] lessons=new Lesson[]{lesson1,lesson2,lesson3,lesson4,
+//                                      lesson5,lesson6,lesson7,lesson8,
+//                                      lesson9,lesson10,lesson11,lesson12};
+        
         Student firstStudent=new Student();
         firstStudent.setName(1, "Toheeb", "Kolawole");
         Student secondStudent=new Student();
@@ -134,6 +153,12 @@ public class BookingManagementApplication {
         Lessons.put(4, lesson4);
         Lessons.put(5, lesson5);
         Lessons.put(6, lesson6);
+        Lessons.put(7, lesson7);
+        Lessons.put(8, lesson8);
+        Lessons.put(9, lesson9);
+        Lessons.put(10, lesson10);
+        Lessons.put(11, lesson11);
+        Lessons.put(12, lesson12);
         
         ff.AddLesson(lesson1);
         fs.AddLesson(lesson2);
@@ -143,6 +168,14 @@ public class BookingManagementApplication {
         ss.AddLesson(lesson5);
         st.AddLesson(lesson6);
         
+        tf.AddLesson(lesson7);
+        ts.AddLesson(lesson8);
+        tt.AddLesson(lesson9);
+        
+        fof.AddLesson(lesson10);
+        fos.AddLesson(lesson11);
+        fot.AddLesson(lesson12);
+        
         s1.add(ff);
         s1.add(fs);
         s1.add(ft);
@@ -151,8 +184,22 @@ public class BookingManagementApplication {
         s2.add(ss);
         s2.add(st);
         
+        s3.add(tf);
+        s3.add(ts);
+        s3.add(tt);
+        
+        s4.add(fof);
+        s4.add(fos);
+        s4.add(fot);
+        
         d1.AddSessions(s1);
         d2.AddSessions(s2);
+        d3.AddSessions(s3);
+        d4.AddSessions(s4);
+        
+        Session[] sessions=new Session[]{ff,fs,ft,sf,ss,st,tf,ts,tt,fof,fos,fot};
+        
+        sessionCollection=new SessionCollection(new ArrayList<>(Arrays.asList(sessions)));
         
         
     }
@@ -182,7 +229,7 @@ public class BookingManagementApplication {
         // System.out.println("Integer input: " + number);
         
        Timetable timetable=new Timetable();
-       int number = scanner.nextInt();
+       int number = scanner.nextInt(); 
        if(number==1)
        {
            System.out.println("To create a booking, press 1. Press 2 to ");
@@ -213,46 +260,7 @@ public class BookingManagementApplication {
                         lesson.studentBooked();
                         lessonCount=lesson.studentCount();
                         
-            // working
-//                         JSONObject s=new JSONObject();
-//                         s.put("name", "toheeb");
-//                         s.put("lessonid", 1);
-//                         s.put("studentid", 2);
-//                         s.put("status", false);
-//                         
-//                         JSONArray lessonArray=new JSONArray();
-//                         lessonArray.add(new Lesson(1,"les1",2.3));
-//                         lessonArray.add(new Lesson(2,"les2",2.6));
-//                         lessonArray.add(new Lesson(3,"les3",2.4));
-//                         
-//                         s.put("lessons",lessonArray);
-//                         Gson g=new Gson();
-//                         String d=g.toJson(s);
-//                         
-////                         Booking b=new Booking(1,3);
-////                         String booking=g.toJson(b);
-//                        // b.CreateBooking(1,1);
-//                        try {
-//
-//                            // Writing to a file
-//                            Path path=Path.of("C:\\Users\\user\\Java Projects\\Booking Management Application\\src\\booking\\management\\application\\Models\\data.json");
-//                            String spath=path.toString();
-//                            File file=new File(spath);
-//                            file.createNewFile();
-//                            FileWriter fileWriter = new FileWriter(file);
-//                            System.out.println("Writing JSON object to file");
-//                            System.out.println("-----------------------");
-//                            System.out.print(d);
-//
-//                            fileWriter.write(d);
-//                            fileWriter.flush();
-//                            fileWriter.close();
-//
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        
-                        // working
+         
                         System.out.println("To book "+Sessions.get(i).getPeriod()+ "session for " + lesson.ReturnLesson()+", click "+ Integer.toString(i)+" and press enter" );
                        
                         
@@ -260,7 +268,7 @@ public class BookingManagementApplication {
                     
                         number=scanner.nextInt();
                         Booking booking=new Booking();
-                        int lessonId=0;
+                        
                         switch(number)
                         {
                             case 0: lessonId=lessons[0].getLessonID();
@@ -270,200 +278,79 @@ public class BookingManagementApplication {
                             case 2:lessonId=lessons[2].getLessonID(); 
                             break;
                         }
-                        //json.put("bookings", studentArray);
-                        //Booking booking=new Booking();
-                        //booking.CreateBooking(lessonId,studentId);
-                        String bookingId=saveBooking(lessonId,studentId); 
-                        
-                        if(bookingId.equals("already booked"))
-                        {
-                           System.out.println("You are already booked for this lesson");
-                        
-                        }
-                        else if(bookingId.isEmpty())
-                        {
-                          System.out.println("This lesson is fully booked");
-                       
-                        }
-                        else
-                        {
-                            System.out.println("Booking successful."+ "\n" +" Booking Id is: "+bookingId);
-                       
-                        }
-                        
-                     //   XStream xstream = new XStream();
-//                        XStream xstream = new XStream(new StaxDriver());
-//                        FileReader reader = new FileReader("C:\\Users\\user\\Java Projects\\Booking Management Application\\src\\booking\\management\\application\\Models\\XMLData.xml"); 
-//                         Booking bookings = (Booking)xstream.fromXML(reader);
-//                        System.out.print(bookings.getBooking());
-                        
-
-// write to xml
-
-
-//                        String xml = xstream.toXML(booking);
-//                        System.out.print(xml);
-//                        
-//                        Path path=Path.of("C:\\Users\\user\\Java Projects\\Booking Management Application\\src\\booking\\management\\application\\Models\\XMLData.xml");
-//                            String spath=path.toString();
-//                            File file=new File(spath);
-//                            file.createNewFile();
-//                            FileWriter fileWriter = new FileWriter(file,true);
-//                            System.out.println("Writing JSON object to file");
-//                            System.out.println("-----------------------");
-//                            System.out.print(xml);
-//                            
-//                            fileWriter.write(xml);
-//                            fileWriter.flush();
-//                            fileWriter.close();
-
-
-                        // read bookings from xml file
-//                        DocumentBuilderFactory fact=DocumentBuilderFactory.newInstance();
-//                        try
-//                        {
-//                            DocumentBuilder builder=fact.newDocumentBuilder();
-//                            Document doc=builder.parse("C:\\Users\\user\\Java Projects\\Booking Management Application\\src\\booking\\management\\application\\Models\\XMLData.xml");
-//                            NodeList list=doc.getChildNodes();
-//                            ArrayList<Booking> collections=printNode(list);
-//                            
-//                            for(int i=0;i<collections.size();i++)
-//                            {
-//                                System.out.println(collections.get(i).getBooking());
-//                            }
-//                        }
-//                        catch(Exception ex)
-//                        {
-//                            
-//                        }
-                        
-                        
-                        // read bookings from xml file
-//                        String xml = xstream.toXML(booking);
-//                        System.out.print(xml);
-//                        
-//                        Path path=Path.of("C:\\Users\\user\\Java Projects\\Booking Management Application\\src\\booking\\management\\application\\Models\\XMLData.xml");
-//                            String spath=path.toString();
-//                            File file=new File(spath);
-//                            file.createNewFile();
-//                            FileWriter fileWriter = new FileWriter(file,true);
-//                            System.out.println("Writing JSON object to file");
-//                            System.out.println("-----------------------");
-//                            System.out.print(xml);
-//                            
-//                            fileWriter.write(xml);
-//                            fileWriter.flush();
-//                            fileWriter.close();
-                            
-//                          ArrayList<Booking> bookings=(ArrayList<Booking>)xstream.fromXML(xml);
-//                          
-//                                  for(int i=0;i<bookings.size();i++)
-//                                  {
-//                                    System.out.println(bookings.get(i));
-//                                  }
-//                        Scanner sc = new Scanner(new FileReader("\"C:\\\\Users\\\\user\\\\Java Projects\\\\Booking Management Application\\\\src\\\\booking\\\\management\\\\application\\\\Models\\\\data.json"))
-//                         .useDelimiter("}");
-//                        
-//                         String str;
-//       
-//        // checking end of file
-//        while (sc.hasNext()) {
-//            str = sc.next();
-//           
-//            // adding each string to arraylist
-//            listOfStrings.add(str);
-//        }
-//       
-//        // convert any arraylist to array
-//        String[] array
-//            = listOfStrings.toArray(new String[0]);
-//       
-//        // print each string in array
-//        for (String eachString : array) {
-//            System.out.println(eachString);
-//        }
-//                        
-//                        
-//                        JSONObject json=new JSONObject();
-//                        JSONArray studentArray=new JSONArray();
-//                        
-//                        Gson gson = new Gson();
-//
-//                        //Booking bookingObject = gson.fromJson(b, Booking.class);  
-//                        
-//                         
-//                        json.put("bookings", studentArray);
-//                        //json.put("bookings", booking);
-//                        
-//                        booking.CreateBooking(lessonId,studentId);
-//                        studentArray.add(booking);
-//                        Gson g=new Gson();
-//                        String b=g.toJson(studentArray); 
-//                        
-//                       Path path=Path.of("C:\\Users\\user\\Java Projects\\Booking Management Application\\src\\booking\\management\\application\\Models\\data.json");
-//                            String spath=path.toString();
-//                            File file=new File(spath);
-//                            file.createNewFile();
-//                            FileWriter fileWriter = new FileWriter(file,true);
-//                            System.out.println("Writing JSON object to file");
-//                            System.out.println("-----------------------");
-//                            System.out.print(b);
-//                            
-//                            fileWriter.write(b);
-//                            //fileWriter.
-//                            fileWriter.flush();
-//                            fileWriter.close();
-                            
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        //working
-//                        JSONObject json=new JSONObject();
-//                        JSONArray studentArray=new JSONArray();
-//                        
-//                        Gson gson = new Gson();
-//
-//                        //Booking bookingObject = gson.fromJson(b, Booking.class);  
-//                        
-//                         
-//                        json.put("bookings", studentArray);
-//                        //json.put("bookings", booking);
-//                        
-//                        booking.CreateBooking(lessonId,studentId);
-//                        studentArray.add(booking);
-//                        Gson g=new Gson();
-//                        String b=g.toJson(studentArray); 
-//                        
-//                       Path path=Path.of("C:\\Users\\user\\Java Projects\\Booking Management Application\\src\\booking\\management\\application\\Models\\data.json");
-//                            String spath=path.toString();
-//                            File file=new File(spath);
-//                            file.createNewFile();
-//                            FileWriter fileWriter = new FileWriter(file,true);
-//                            System.out.println("Writing JSON object to file");
-//                            System.out.println("-----------------------");
-//                            System.out.print(b);
-//                            
-//                            fileWriter.write(b);
-//                            //fileWriter.
-//                            fileWriter.flush();
-//                            fileWriter.close();
-                            
-//working
+                        createBooking(lessonId,studentId);
                 }
                 else
                 {
-                    System.out.println(" by exercise name ");
+                   System.out.println("Enter exercise name, then click enter ");
+                   scanner.nextLine();
+                   ArrayList<Session> filteredSessions=new ArrayList();
+                   
+                   
+                   do
+                   {
+                       
+                       String stringScanner=scanner.nextLine();
+                       filteredSessions=sessionCollection.getSessions(stringScanner);
+                       if(filteredSessions.size()<1)
+                           System.out.println("Exercise not found. Please, try again");
+                    
+                   }while(filteredSessions.size()<1);
+                   
+                    Lesson[] lessons=new Lesson[20];
+                    for(int i=1;i<=attendance.size();i++)
+                    {
+                        try
+                        {
+                            for(int j=0;j<attendance.get(i).getSession().size();j++)
+                            {
+                                for(Session session:filteredSessions)
+                                {
+                                    Session tSession=attendance.get(i).getSession().get(j);
+                                    if(tSession.equals(session))
+                                    {
+                                          Lesson lesson=tSession.getLesson();
+//                                        lessons[j]=lesson;
+//                                        lesson.studentBooked();
+//                                        lessonCount=lesson.studentCount();
 
+                                       
+                                        System.out.println("To book "+attendance.get(i).ReturnDate() +" " +filteredSessions.get(j).getPeriod()+ "session for " + lesson.ReturnLesson()+", click "+ lesson.getLessonID()+" and press enter" );
+                                        
+                                        
+                                        
+                                    }
+                                }
+                            }
+                        }
+                        
+                        catch(Exception ex)
+                        {
+                            
+                        }
+
+
+                    }
+                    number=scanner.nextInt();
+                    lessonId=number;
+                    createBooking(lessonId,studentId);
+                    
+                    //for(Session session:Sessions)
+//                    for(int i=0;i<filteredSessions.size();i++)
+//                    {
+//                        Lesson lesson=filteredSessions.get(i).getLesson();
+//                        lessons[i]=lesson;
+//                        lesson.studentBooked();
+//                        lessonCount=lesson.studentCount();
+//                        
+//         
+//                        System.out.println("To book "+filteredSessions.get(i).getPeriod()+ "session for " + lesson.ReturnLesson()+", click "+ Integer.toString(i)+" and press enter" );
+//                       
+//                        
+//                    }
+                    
+                   
+                   
                 }
             }
             else if(number==2)
@@ -550,6 +437,26 @@ public class BookingManagementApplication {
         return bookingId;
     }
     
+    public static void createBooking(int lessonId,int studentId)
+    {
+        String bookingId=saveBooking(lessonId,studentId); 
+                        
+        if(bookingId.equals("already booked"))
+        {
+            System.out.println("You are already booked for this lesson");
+                        
+        }
+        else if(bookingId.isEmpty())
+        {
+            System.out.println("This lesson is fully booked");
+                       
+        }
+        else
+        {
+            System.out.println("Booking successful."+ "\n" +" Booking Id is: "+bookingId);
+                       
+        }
+    }
     
     public static ArrayList<Booking> printNode(NodeList nList)
     {
