@@ -4,38 +4,27 @@
  */
 package booking.management.application;
 
-import java.io.IOException;
+
+import booking.management.application.Controllers.BookingController;
 import java.util.Scanner;
-import booking.management.application.Forms.Home;
 import booking.management.application.Models.Booking;
-import booking.management.application.Models.BookingCollection;
 import booking.management.application.Models.Date;
 import booking.management.application.Models.Session;
 import booking.management.application.Models.Lesson;
-import booking.management.application.Models.LessonCollection;
 import booking.management.application.Models.SessionCollection;
 import booking.management.application.Models.TimeofDay;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import booking.management.application.Models.Timetable;
-import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
-import org.json.simple.JSONObject;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
-import org.json.simple.JSONArray;
 import booking.management.application.Models.Student;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import java.io.FileReader;
-import java.util.Collection;
+import booking.management.application.Views.BookingView;
 import java.util.UUID;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -54,10 +43,63 @@ public class BookingManagementApplication {
     /**
      * @param args the command line arguments
      */
-    static int lessonId=0;
+    
+    public static class Helper {
+        
+        static Scanner scanner=new Scanner(new InputStreamReader(System.in));
+       
+        public static void print(String text)
+        {
+            
+            System.out.println(text);
+        }
+        
+        public static String readLine()
+        {
+            //scanner=new Scanner(new InputStreamReader(System.in));
+            return scanner.nextLine();
+        }
+        
+        public static int readInt()
+        {
+            return scanner.nextInt();
+        }
+        public <T> ArrayList<T> printNode(NodeList nList)
+        {
+            ArrayList<T> TCollection=new ArrayList();
+            String id="";
+            int lId=0;
+            int sId=0;
+            for(int i=0;i<nList.getLength();i++)
+            {
+                 Node node=nList.item(i);
+
+                 String nodeName=node.getNodeName();
+
+                 // add node
+
+                 if(node.hasChildNodes())
+                 {
+                    if(node.getChildNodes().getLength()==1)
+                    {
+
+                    }
+                    printNode(node.getChildNodes());
+                 }
+            }
+           return TCollection;
+
+        }
+    }
     static int lessonCount=0;
+    static String bookingId="";
+    static Scanner scanner = new Scanner(new InputStreamReader(System.in));
+    static Timetable timetable=new Timetable();
+    static int number=0;
+    static int lessonId=0;
+    static String stringScanner;
     static ArrayList<Booking> bookingCollection=new ArrayList<Booking>();
-    private static Lesson lesson1=new Lesson(1,"football",12.3);
+    private static final Lesson lesson1=new Lesson(1,"football",12.3);
     private static Lesson lesson2=new Lesson(2,"tennis",2.3);
     private static Lesson lesson3=new Lesson(3,"volleyball",2.3);
     private static Lesson lesson4=new Lesson(4,"chess",2.3);
@@ -209,15 +251,18 @@ public class BookingManagementApplication {
         // TODO code application logic here
         loadDummyDate();
         
-        Scanner scanner = new Scanner(new InputStreamReader(System.in));
-        System.out.println("Log in as ");
+        Booking bModel=new Booking();
+        BookingView bView=new BookingView();
+        BookingController bookingController=new BookingController(bModel,bView);
+        bookingController.CreateNewBooking(attendance, timetable);
+        Helper.print("Log in as ");
         
         for(int i=0;i<students.length;i++)
         {
-           System.out.println(Integer.toString(i+1)+ "for "+ students[i].getName());
+            Helper.print(Integer.toString(i+1)+ "for "+ students[i].getName());
         }
-        
-        studentId=scanner.nextInt();
+       // String x=Helper.readLine();
+        studentId=Helper.readInt();
         //System.out.println("Logged in as
         
         System.out.println("For booking, enter 1. Enter 2 for records ");
@@ -228,11 +273,12 @@ public class BookingManagementApplication {
         
         // System.out.println("Integer input: " + number);
         
-       Timetable timetable=new Timetable();
-       int number = scanner.nextInt(); 
+       
+       number = scanner.nextInt(); 
        if(number==1)
        {
-           System.out.println("To create a booking, press 1. Press 2 to ");
+           // booking starts here
+           System.out.println("To create a booking, press 1. Press 2 to change a booking ");
            number = scanner.nextInt();
             
             if(number==1)
@@ -290,7 +336,7 @@ public class BookingManagementApplication {
                    do
                    {
                        
-                       String stringScanner=scanner.nextLine();
+                       stringScanner=scanner.nextLine();
                        filteredSessions=sessionCollection.getSessions(stringScanner);
                        if(filteredSessions.size()<1)
                            System.out.println("Exercise not found. Please, try again");
@@ -354,8 +400,54 @@ public class BookingManagementApplication {
                 }
             }
             else if(number==2)
-            {
-                System.out.println("Integer inputs: " + number);
+            {   
+                scanner.nextLine();
+                Booking booking=null;
+                do{
+                    System.out.println("Enter your booking Id");
+                    stringScanner=scanner.nextLine();
+
+                    try
+                    {
+                        DocumentBuilderFactory fact=DocumentBuilderFactory.newInstance();
+                        DocumentBuilder builder=fact.newDocumentBuilder();
+                        Document document=builder.parse(new File("C:/Users/user/Java Projects/Booking Management Application/src/booking/management/application/Models/XMLData.xml"));
+
+
+                        NodeList list=document.getChildNodes();
+                        ArrayList<Booking> collections=printNode(list);
+                        
+                        for(int i=0;i<collections.size();i++)
+                        {
+                            booking=collections.get(i);
+                            bookingId=trimId(booking.getBookingId());
+                            if(!trimId(booking.getBookingId()).equals(stringScanner))
+                            {
+                               booking=null;
+                              
+                            }
+                            
+                        }
+
+                    }
+//                   
+                    catch(Exception ex)
+                    {
+
+                    }
+                    if(booking==null)System.out.println("Booking Id not found. Please, try again");
+                    else break;
+                }
+                while(booking==null);
+                    
+                BookByDay();
+               // System.out.println("we outside");
+                
+       
+//                if(trimId(UUID.fromString("166cc2a3-e705-46dc-ac70-62931f5e663a")).equalsIgnoreCase(stringScanner))
+//                {
+//                   System.out.println("166cc2a3-e705-46dc-ac70-62931f5e663a"); 
+//                }
             }
 
        }
@@ -364,12 +456,59 @@ public class BookingManagementApplication {
        
     }
     
+    public static String trimId(UUID id)
+    {
+       String stringId=id.toString();
+       bookingId=stringId.substring(24);
+       return bookingId;
+    }
     
+    public static void BookByDay()
+    {
+        System.out.println(timetable.getTimetable(attendance));
+        System.out.println("Select Lesson by day ");
+        number=0;
+        number=scanner.nextInt();
+        Date day=timetable.getADay(number, attendance);
+
+                    // get sessions
+
+        System.out.println(day.getDay());
+        ArrayList<Session> Sessions=day.getSession();
+        Lesson[] lessons=new Lesson[3];
+                    //for(Session session:Sessions)
+        for(int i=0;i<Sessions.size();i++)
+        {
+            Lesson lesson=Sessions.get(i).getLesson();
+            lessons[i]=lesson;
+            lesson.studentBooked();
+            lessonCount=lesson.studentCount();
+                        
+         
+            System.out.println("To book "+Sessions.get(i).getPeriod()+ "session for " + lesson.ReturnLesson()+", click "+ Integer.toString(i)+" and press enter" );
+                       
+                        
+        }
+                    
+        number=scanner.nextInt();
+        Booking booking=new Booking();
+                        
+        switch(number)
+        {
+            case 0: lessonId=lessons[0].getLessonID();
+            break; 
+            case 1:lessonId=lessons[1].getLessonID(); 
+            break;
+            case 2:lessonId=lessons[2].getLessonID(); 
+            break;
+        }
+        createBooking(lessonId,studentId);
+    }
     
     public static String saveBooking(int lId,int sId)
     {
         Booking book=new Booking();
-        String bookingId=book.CreateBooking(lId, sId);
+        String bookingId=book.CreateBookingId(lId, sId);
         UUID id=UUID.fromString(bookingId);
         try
         {
@@ -461,9 +600,9 @@ public class BookingManagementApplication {
     public static ArrayList<Booking> printNode(NodeList nList)
     {
         
-        String id="";
-        int lId=0;
-        int sId=0;
+        String ID="";
+        int LessonID=0;
+        int StudentID=0;
         for(int i=0;i<nList.getLength();i++)
         {
              Node node=nList.item(i);
@@ -474,7 +613,7 @@ public class BookingManagementApplication {
  //            node.insertBefore(node.getLastChild(), node.appendChild(node))
              if(node.hasChildNodes())
              {
-                   System.out.println("\n"+ nodeName);
+                  // System.out.println("\n"+ nodeName);
 //                 if(node.hasAttributes())
 //                 {
 //                     System.out.println("\n"+ node.getAttributes().item(0));
@@ -482,23 +621,23 @@ public class BookingManagementApplication {
                  if(node.getChildNodes().getLength()==1)
                  {
                      //System.out.println("\n"+ node.setUserData("1", s1, arg2));
-                     System.out.println("\n"+ node.getTextContent());
+                    // System.out.println("\n"+ node.getTextContent());
                      
                      if("ID".equals(nodeName))
                      {
-                         id=node.getTextContent();
+                         ID=node.getTextContent();
                         
                      }
                      else if("LessonID".equals(nodeName))
                      {
-                         lId=Integer.parseInt(node.getTextContent());
+                         LessonID=Integer.parseInt(node.getTextContent());
                          
                      }
                      else if("StudentID".equals(nodeName))
                      {
-                         sId=Integer.parseInt(node.getTextContent());
+                         StudentID=Integer.parseInt(node.getTextContent());
                         
-                         bookingCollection.add(new Booking(UUID.fromString(id), lId, sId));
+                         bookingCollection.add(new Booking(UUID.fromString(ID), LessonID, StudentID));
                          
                      }
                      
