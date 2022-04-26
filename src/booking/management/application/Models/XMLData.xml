@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Collection>
 
 
-    
+    <Booking>
+        <ID>af7debd7-ec7d-4ae0-844f-63d116c89596</ID>
+        <ExerciseID>4</ExerciseID>
+        <StudentID>10</StudentID>
+        <Status>booked</Status>
+    </Booking>
+
+    <Booking>
+        <ID>18dfc6e7-fc43-4ec6-ab22-925baa7a90a8</ID>
+        <ExerciseID>4</ExerciseID>
+        <StudentID>9</StudentID>
+        <Status>booked</Status>
+    </Booking>
+    <Booking>
+        <ID>5cabcd94-bbd7-44e1-ab31-cc116d636232</ID>
+        <ExerciseID>4</ExerciseID>
+        <StudentID>7</StudentID>
+        <Status>booked</Status>
+    </Booking>
 
     <Booking>
         <ID>cb15abc8-1c12-4927-9730-3ec43595a4bc</ID>
-        <ExerciseID>2</ExerciseID>
+        <ExerciseID>4</ExerciseID>
+        <StudentID>6</StudentID>
+        <Status>booked</Status>
+    </Booking>
+    <Booking>
+        <ID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</ID>
+        <ExerciseID>1</ExerciseID>
         <StudentID>1</StudentID>
         <Status>booked</Status>
     </Booking>
-    
     
         <Review>
             <BookingID>5</BookingID>
@@ -20,20 +43,9 @@
 
 
 
-    <Booking>
-        <ID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</ID>
-        <ExerciseID>2</ExerciseID>
-        <StudentID>1</StudentID>
-        <Status>cvsd</Status>
-    </Booking>
+    
 
-    <Booking>
-        <ID>attended</ID>
-        <ExerciseID>2</ExerciseID>
-        <StudentID>3</StudentID>
-        <Status>vds</Status>
-    </Booking>
-
+   
     
     <Review>
         <BookingID>456b2164-bee3-4ea2-967f-1638694e32b0</BookingID>
@@ -59,30 +71,43 @@
         <Rating>1</Rating>
     </Review>
 
-    <Booking>
-        <ID>attended</ID>
-        <ExerciseID>0</ExerciseID>
-        <StudentID>2</StudentID>
-        <Status>sdv</Status>
-    </Booking>
-
-    <Booking>
-        <ID>attended</ID>
-        <ExerciseID>0</ExerciseID>
-        <StudentID>1</StudentID>
-        <Status>sdv</Status>
-    </Booking>
-
+    
     <Review>
         <BookingID>cb15abc8-1c12-4927-9730-3ec43595a4bc</BookingID>
         <Message>hj</Message>
         <Rating>3</Rating>
     </Review>
 
-    <Booking>
-        <ID>wer</ID>
-        <ExerciseID>wer</ExerciseID>
-        <StudentID>wer</StudentID>
-        <Status>booked</Status>
-    </Booking>
-</Collection>
+    
+
+    
+
+    <Review>
+        <BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID>
+        <Message>121</Message>
+        <Rating>1</Rating>
+    </Review>
+
+    <Review>
+        <BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID>
+        <Message>swe</Message>
+        <Rating>1</Rating>
+    </Review>
+    <Review>
+        <BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID>
+        <Message>dew</Message>
+        <Rating>1</Rating>
+    </Review>
+    <Review>
+        <BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID>
+        <Message>swsq</Message>
+        <Rating>1</Rating>
+    </Review>
+    <Review>
+        <BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID>
+        <Message>aq</Message>
+        <Rating>1</Rating>
+    </Review>
+
+    
+<Review><BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID><Message>dee</Message><Rating>2</Rating></Review></Collection>
