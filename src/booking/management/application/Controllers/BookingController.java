@@ -15,17 +15,12 @@ package booking.management.application.Controllers;
 import booking.management.application.Models.Booking;
 import booking.management.application.Views.BookingView;
 import booking.management.application.BookingManagementApplication.Helper;
-import static booking.management.application.BookingManagementApplication.attendance;
-import static booking.management.application.BookingManagementApplication.createBooking;
 import booking.management.application.Models.Date;
-import booking.management.application.Models.Lesson;
 import booking.management.application.Models.Session;
+import booking.management.application.Models.SessionCollection;
 import booking.management.application.Models.Timetable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class BookingController {
     
@@ -35,7 +30,9 @@ public class BookingController {
     private int lessonCount=0;
     private int lessonId=0;
     private int studentId=0;
-    
+    SessionCollection sCollection;
+    ArrayList<Session> Sessions;
+    String stringScanner;
     public BookingController(Booking model, BookingView view )
     {
         this.view=view;
@@ -44,63 +41,74 @@ public class BookingController {
     
     
     
-    public void CreateNewBooking(HashMap<Integer,Date> attendance,Timetable timetable)
+    public void CreateNewBooking(HashMap<Integer,Date> attendance,Timetable timetable,int studentId)
     {
        // System.out.println("To create a booking, press 1. Press 2 to change a booking ");
+        this.studentId=studentId;
         this.view.printView("To create a booking, press 1. Press 2 to change a booking ");
         number = Helper.readInt();
         
         if(number==1)
         {
-                //System.out.println("To check timetable by day, enter 1. Enter 2 to check by exercise name ");
-                this.view.printView("To check timetable by day, enter 1. Enter 2 to check by exercise name ");
-                number = Helper.readInt();
-                if(number==1)
-                {
-//                    System.out.println(timetable.getTimetable(attendance));
-//                    System.out.println("Select Lesson by day ");
-                    this.view.printView(timetable.getTimetable(attendance));
-                    this.view.printView("Select Lesson by day ");
-                    number=0;
-                    number=Helper.readInt();
-                    Date day=timetable.getADay(number, attendance);
-                    System.out.println(day.getDay());
-                    ArrayList<Session> Sessions=day.getSession();
-                    Lesson[] lessons=new Lesson[3];
-                    //for(Session session:Sessions)
-                    for(int i=0;i<Sessions.size();i++)
-                    {
-                        Lesson lesson=Sessions.get(i).getLesson();
-                        lessons[i]=lesson;
-                        lesson.studentBooked();
-                        lessonCount=lesson.studentCount();
-                        
-         
-                        System.out.println("To book "+Sessions.get(i).getPeriod()+ "session for " + lesson.ReturnLesson()+", click "+ Integer.toString(i)+" and press enter" );
-                       
-                        
-                    }
-                    
-                        number=Helper.readInt();
-                        Booking booking=new Booking();
-                        
-                        switch(number)
-                        {
-                            case 0: lessonId=lessons[0].getLessonID();
-                            break; 
-                            case 1:lessonId=lessons[1].getLessonID(); 
-                            break;
-                            case 2:lessonId=lessons[2].getLessonID(); 
-                            break;
-                        }
-                        createBooking(lessonId,studentId);
-                }
-                else
-                {
-                    
-                }
+            this.view.printView("To check timetable by day, enter 1. Enter 2 to check by exercise name ");
+            number = Helper.readInt();
+            if(number==1)
+            {
+                this.view.printView(timetable.getTimetable(attendance));
+                this.view.printView("Select Lesson by day ");
+                number=0;
+                number=Helper.readInt();
+                Date day=timetable.getADay(number, attendance);
+                
+                this.view.printView(day.getDay());
+                Sessions=day.getSession();
+                sCollection=new SessionCollection(Sessions);
+                lessonId=sCollection.BookFromMultipleSessions();
+
+                Booking booking=new Booking();
+                this.booking.createBooking(lessonId,studentId);
+            }
+            else if(number==2)
+            {
+               this.view.printView("Enter exercise name, then click enter ");
+               Helper.readLine();
+               Sessions=new ArrayList();
+               sCollection=new SessionCollection(Sessions);
+               sCollection.filterSessionsByLessonName(attendance);
+
+               number=Helper.readInt();
+               lessonId=number;
+               this.booking.createBooking(lessonId,studentId);
+
+
+            }
+        
+                
         }
         
+        else if(number==2)
+        {
+           Helper.readLine();
+           do
+           {
+                Helper.print("Enter your booking Id");
+                stringScanner=Helper.readLine();
+                booking=this.booking.getBooking(stringScanner,studentId,"booked");
+                if(booking==null)Helper.print("Booking Id not found for this student. Please, try again");
+                else break;
+           }
+           while(booking==null);
+            Helper.print(timetable.getTimetable(attendance));
+            Helper.print("Select Lesson by day ");
+            number=0;
+            number=Helper.readInt();
+            Date day=timetable.getADay(number, attendance);
+            Helper.print(day.getDay());
+            Sessions=day.getSession();
+            sCollection=new SessionCollection(Sessions);
+            int lessonId=sCollection.filterSessionByDay(attendance);
+            this.booking.createBooking(lessonId,studentId);
+        }
     }    
     
 }

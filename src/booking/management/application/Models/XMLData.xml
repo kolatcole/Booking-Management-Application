@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Collection>
+
+
+    
+
+    <Booking>
+        <ID>cb15abc8-1c12-4927-9730-3ec43595a4bc</ID>
+        <ExerciseID>2</ExerciseID>
+        <StudentID>1</StudentID>
+        <Status>booked</Status>
+    </Booking>
+    
+    
+        <Review>
+            <BookingID>5</BookingID>
+            <Message>fer</Message>
+            <Rating>2</Rating>
+        </Review>
+    
+
+
+
+    <Booking>
+        <ID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</ID>
+        <ExerciseID>2</ExerciseID>
+        <StudentID>1</StudentID>
+        <Status>cvsd</Status>
+    </Booking>
+
+    <Booking>
+        <ID>attended</ID>
+        <ExerciseID>2</ExerciseID>
+        <StudentID>3</StudentID>
+        <Status>vds</Status>
+    </Booking>
+
+    
+    <Review>
+        <BookingID>456b2164-bee3-4ea2-967f-1638694e32b0</BookingID>
+        <Message/>
+        <Rating>1</Rating>
+    </Review>
+
+    <Review>
+        <BookingID>456b2164-bee3-4ea2-967f-1638694e32b0</BookingID>
+        <Message>rvert</Message>
+        <Rating>1</Rating>
+    </Review>
+
+    <Review>
+        <BookingID>64ba77be-7665-44c6-bd38-3e651e5f5ad3</BookingID>
+        <Message>jgftyc</Message>
+        <Rating>3</Rating>
+    </Review>
+
+    <Review>
+        <BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID>
+        <Message>great</Message>
+        <Rating>1</Rating>
+    </Review>
+
+    <Booking>
+        <ID>attended</ID>
+        <ExerciseID>0</ExerciseID>
+        <StudentID>2</StudentID>
+        <Status>sdv</Status>
+    </Booking>
+
+    <Booking>
+        <ID>attended</ID>
+        <ExerciseID>0</ExerciseID>
+        <StudentID>1</StudentID>
+        <Status>sdv</Status>
+    </Booking>
+
+    <Review>
+        <BookingID>cb15abc8-1c12-4927-9730-3ec43595a4bc</BookingID>
+        <Message>hj</Message>
+        <Rating>3</Rating>
+    </Review>
+
+    <Booking>
+        <ID>wer</ID>
+        <ExerciseID>wer</ExerciseID>
+        <StudentID>wer</StudentID>
+        <Status>booked</Status>
+    </Booking>
+</Collection>
