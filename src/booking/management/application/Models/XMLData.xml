@@ -110,4 +110,30 @@
     </Review>
 
     
-<Review><BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID><Message>dee</Message><Rating>2</Rating></Review></Collection>
+
+    <Review>
+        <BookingID>45b4cec2-84e9-4cd7-bc72-016c85a59b8c</BookingID>
+        <Message>dee</Message>
+        <Rating>2</Rating>
+    </Review>
+    <Booking>
+        <ID>df8093f5-a037-42b1-b120-7a5b5fd42d69</ID>
+        <ExerciseID>40</ExerciseID>
+        <StudentID>1</StudentID>
+        <Status>booked</Status>
+    </Booking>
+
+    <Booking>
+        <ID>50787e22-6a16-4bc1-88c8-45fd393dc5b5</ID>
+        <ExerciseID>47</ExerciseID>
+        <StudentID>1</StudentID>
+        <Status>booked</Status>
+    </Booking>
+
+    <Booking>
+        <ID>6c4c838d-4c3b-4bf0-8057-c1bc5f613308</ID>
+        <ExerciseID>43</ExerciseID>
+        <StudentID>1</StudentID>
+        <Status>booked</Status>
+    </Booking>
+</Collection>
